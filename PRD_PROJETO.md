@@ -25,7 +25,7 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 ### 2. Registro de Diárias
 - **O que faz:** Interface para inserção de gastos diários com categorização automática
 - **Importância:** Facilita o registro rápido e preciso de despesas
-- **Funcionamento:** Formulário intuitivo com campos para data, valor, categoria, descrição e comprovantes
+- **Funcionamento:** Formulário React Hook Form com validação Zod, campos para data, valor, categoria, descrição e comprovantes
 
 ### 3. Categorização Automática de Gastos
 - **O que faz:** Classifica automaticamente os gastos em categorias predefinidas
@@ -106,9 +106,12 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - Componentes modulares e reutilizáveis
 - Sistema de design consistente
 - Arquitetura baseada em hooks customizados
+- Formulários com React Hook Form + Zod
+- Validação de dados com Zod schemas
 
 **Backend:**
-- API RESTful (Node.js/TypeScript)
+- API RESTful (Fastify/TypeScript)
+- Arquitetura MVC (Model-View-Controller)
 - Autenticação JWT
 - Banco de dados relacional (PostgreSQL)
 - Sistema de cache (Redis)
@@ -147,6 +150,56 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - Storage para arquivos
 - Analytics
 
+### Formulários e Validação
+
+**React Hook Form:**
+- Gerenciamento de estado de formulários performático
+- Validação em tempo real
+- Integração com Zod para type safety
+- Componentes de formulário reutilizáveis
+- Tratamento de erros consistente
+
+**Validação Zod:**
+- Schemas de validação type-safe
+- Validação tanto no frontend quanto backend
+- Mensagens de erro customizáveis
+- Transformação de dados
+- Validação de tipos complexos
+
+**Componentes de Formulário:**
+- Input, Select, TextArea reutilizáveis
+- Integração automática com React Hook Form
+- Validação visual e feedback de erros
+- Acessibilidade integrada
+- Temas consistentes
+
+### Arquitetura MVC Backend
+
+**Model (Modelo):**
+- Representação dos dados e regras de negócio
+- Interação com banco de dados
+- Validação de dados com Zod
+- Queries otimizadas e type-safe
+
+**View (Visão):**
+- Respostas padronizadas da API
+- Serialização de dados
+- Tratamento de erros consistente
+- Documentação automática (Swagger/OpenAPI)
+
+**Controller (Controlador):**
+- Recebimento de requisições
+- Validação de entrada com Zod
+- Orquestração de serviços
+- Respostas padronizadas
+
+**Benefícios da Arquitetura MVC:**
+- Separação clara de responsabilidades
+- Código mais testável e manutenível
+- Reutilização de componentes
+- Facilita implementação de testes
+- Escalabilidade do código
+
 ### Arquitetura Modular e Boas Práticas
 
 **Princípios de Desenvolvimento:**
@@ -159,21 +212,43 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - **Tratamento de Erros:** Error boundaries e feedback ao usuário
 - **Performance:** React.memo, useCallback, useMemo quando apropriado
 - **Acessibilidade:** WCAG guidelines e navegação por teclado
-- **Testes Abrangentes:** Unit, integration e E2E tests
+- **Testes Abrangentes:** Jest para unit, integration e E2E tests
+- **Formulários Modulares:** React Hook Form com validação Zod
+- **Arquitetura MVC:** Separação clara no backend (Model-View-Controller)
 
-**Estrutura de Pastas:**
+**Estrutura de Pastas Frontend:**
 ```
 src/
 ├── components/          # Componentes reutilizáveis
 │   ├── ui/             # Componentes de UI básicos
+│   ├── forms/          # Componentes de formulário reutilizáveis
 │   └── features/       # Componentes específicos de features
 ├── hooks/              # Hooks customizados
+│   ├── forms/          # Hooks para formulários
+│   └── api/            # Hooks para APIs
 ├── services/           # Lógica de negócio e APIs
 ├── types/              # Definições de tipos TypeScript
+├── schemas/            # Schemas de validação Zod
 ├── utils/              # Funções utilitárias
 ├── contexts/           # Context providers
 ├── pages/              # Componentes de página
-└── tests/              # Arquivos de teste
+└── tests/              # Arquivos de teste Jest
+```
+
+**Estrutura de Pastas Backend:**
+```
+src/
+├── controllers/        # Controllers (lógica de negócio)
+├── models/            # Models (interação com banco)
+├── views/             # Views (respostas da API)
+├── routes/            # Definição de rotas
+├── middlewares/       # Middlewares customizados
+├── services/          # Serviços de negócio
+├── types/             # Definições de tipos TypeScript
+├── schemas/           # Schemas de validação
+├── utils/             # Funções utilitárias
+├── config/            # Configurações
+└── tests/             # Arquivos de teste Jest
 ```
 
 ---
@@ -223,13 +298,13 @@ src/
 - Filtros avançados
 - Exportação de dados
 - Otimizações de performance
-- Testes automatizados
+- Testes Jest automatizados
 
 **Entregáveis:**
 - Dashboard interativo
 - Sistema de métricas
 - API completa documentada
-- Testes de qualidade
+- Testes Jest (unit, integration, E2E)
 
 ### Fase 4 - Integrações e Expansão
 **Objetivo:** Integrações externas e funcionalidades avançadas
@@ -344,10 +419,10 @@ src/
 - 71% precisam de relatórios detalhados
 
 ### Technical Specifications
-- **Frontend:** React 18+, TypeScript, Material-UI
-- **Backend:** Node.js, Express, TypeScript
+- **Frontend:** React 18+, TypeScript, Material-UI, React Hook Form, Zod
+- **Backend:** Fastify, TypeScript, Arquitetura MVC
 - **Database:** PostgreSQL 15+
-- **Testing:** Jest, Cypress
+- **Testing:** Jest (unit, integration, E2E)
 - **CI/CD:** GitHub Actions
 - **Code Quality:** ESLint, Prettier, Husky
 
@@ -362,3 +437,23 @@ src/
 - **Criptografia:** AES-256 para dados sensíveis
 - **Compliance:** LGPD, ISO 27001
 - **Auditoria:** Logs completos de ações
+
+### Testing Strategy
+
+**Jest como Framework Principal:**
+- **Unit Tests:** Componentes, hooks, utilitários
+- **Integration Tests:** APIs, fluxos de usuário
+- **E2E Tests:** Cenários completos de uso
+
+**Cobertura de Testes:**
+- **Frontend:** Componentes, hooks customizados, formulários
+- **Backend:** Controllers, models, services
+- **Validação:** Schemas Zod, regras de negócio
+- **APIs:** Endpoints, middlewares, autenticação
+
+**Estratégia de Testes:**
+- Testes unitários para lógica de negócio
+- Testes de integração para APIs
+- Testes E2E para fluxos críticos
+- Mocks para dependências externas
+- Testes de acessibilidade
