@@ -9,18 +9,18 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 
 **Problema que resolve:** Elimina a complexidade e erros manuais no controle de diárias, reduzindo tempo de processamento e aumentando a precisão dos relatórios.
 
-**Público-alvo:** Profissionais que viajam a trabalho, gestores de equipes, departamentos de RH e financeiro de empresas.
+**Público-alvo:** Engenheiros que precisam controlar diárias de forma digital, substituindo o uso de planilhas manuais.
 
-**Valor:** Redução significativa no tempo de processamento de diárias, maior transparência nos gastos e conformidade com políticas corporativas.
+**Valor:** Redução significativa no tempo de processamento de diárias, maior precisão no controle e facilidade de visualização comparado ao uso de planilhas.
 
 ---
 
 ## Core Features
 
-### 1. Cadastro e Gestão de Usuários
-- **O que faz:** Sistema de autenticação e perfis de usuário com diferentes níveis de acesso
-- **Importância:** Garante segurança e controle de acesso baseado em responsabilidades
-- **Funcionamento:** Login com credenciais, perfis (colaborador, gestor, administrador), gestão de permissões
+### 1. Sistema de Autenticação
+- **O que faz:** Sistema de login simples para o engenheiro
+- **Importância:** Garante segurança e controle de acesso ao sistema
+- **Funcionamento:** Login com credenciais únicas, acesso direto às funcionalidades de controle de diárias
 
 ### 2. Registro de Diárias
 - **O que faz:** Interface para inserção de gastos diários com categorização automática
@@ -32,10 +32,10 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - **Importância:** Padroniza relatórios e facilita análises
 - **Funcionamento:** Algoritmo de reconhecimento baseado em descrições e valores
 
-### 4. Sistema de Aprovação
-- **O que faz:** Fluxo de aprovação hierárquico para diárias
-- **Importância:** Garante controle e conformidade com políticas
-- **Funcionamento:** Workflow configurável com notificações automáticas
+### 4. Controle e Validação
+- **O que faz:** Sistema de validação e controle de dados inseridos
+- **Importância:** Garante precisão e consistência dos dados
+- **Funcionamento:** Validação automática com feedback imediato, controle de duplicatas
 
 ### 5. Geração de Relatórios
 - **O que faz:** Cria relatórios detalhados e exportáveis
@@ -53,23 +53,12 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 
 ### User Personas
 
-**João Silva - Colaborador**
+**João Silva - Engenheiro**
 - 35 anos, engenheiro de campo
-- Viaja 2-3 vezes por mês
-- Precisa registrar diárias rapidamente
-- Usa smartphone frequentemente
-
-**Maria Santos - Gestora**
-- 42 anos, gerente de projetos
-- Aprova diárias de 15 colaboradores
-- Precisa de visibilidade sobre gastos
-- Usa desktop principalmente
-
-**Carlos Oliveira - Administrador**
-- 38 anos, analista financeiro
-- Gerencia políticas e relatórios
-- Precisa de dados consolidados
-- Usa ferramentas de análise
+- Atualmente usa planilha Excel para controle de diárias
+- Precisa registrar gastos de viagens a trabalho
+- Quer substituir processo manual por sistema digital
+- Usa desktop principalmente para trabalho
 
 ### Key User Flows
 
@@ -78,15 +67,15 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 2. Seleção de "Nova Diária"
 3. Preenchimento de dados (data, gastos, descrições)
 4. Upload de comprovantes
-5. Submissão para aprovação
-6. Confirmação e acompanhamento
+5. Validação automática dos dados
+6. Salvamento e confirmação
 
-**Fluxo de Aprovação:**
-1. Notificação de nova diária
-2. Revisão de dados e comprovantes
-3. Aprovação/rejeição com comentários
-4. Notificação ao colaborador
-5. Processamento financeiro
+**Fluxo de Visualização e Controle:**
+1. Acesso ao dashboard principal
+2. Visualização de diárias registradas
+3. Filtros por período, categoria, valor
+4. Edição de registros quando necessário
+5. Geração de relatórios
 
 ### UI/UX Considerations
 - Interface responsiva para mobile e desktop
@@ -125,23 +114,24 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 ### Data Models
 
 **Usuário:**
-- ID, nome, email, perfil, empresa, status
+- ID, nome, email, senha_hash, data_criacao
 
 **Diária:**
-- ID, usuário_id, data_inicio, data_fim, status, valor_total
+- ID, usuario_id, data_inicio, data_fim, valor_total, status
 
 **Gasto:**
-- ID, diaria_id, categoria, valor, descrição, comprovante_url
+- ID, diaria_id, categoria, valor, descricao, comprovante_url, data_registro
 
-**Aprovação:**
-- ID, diaria_id, aprovador_id, status, comentario, data
+**Categoria:**
+- ID, nome, descricao, cor
 
 ### APIs and Integrations
 
 **APIs Internas:**
 - /api/auth (autenticação)
 - /api/diarias (CRUD diárias)
-- /api/usuarios (gestão usuários)
+- /api/gastos (CRUD gastos)
+- /api/categorias (gestão categorias)
 - /api/relatorios (geração relatórios)
 
 **Integrações Externas:**
@@ -256,38 +246,38 @@ src/
 ## Development Roadmap
 
 ### Fase 1 - MVP (Minimum Viable Product)
-**Objetivo:** Sistema básico funcional para registro e visualização de diárias
+**Objetivo:** Sistema básico funcional para substituir a planilha de controle de diárias
 
 **Funcionalidades:**
-- Sistema de autenticação básico
-- CRUD de usuários
+- Sistema de autenticação simples
 - Registro manual de diárias
-- Visualização de diárias por usuário
-- Interface web básica responsiva
+- Visualização de diárias registradas
+- Categorização básica de gastos
+- Interface web responsiva
 - Banco de dados básico
 
 **Entregáveis:**
 - Sistema de login/logout
 - Formulário de registro de diárias
-- Lista de diárias do usuário
-- Interface administrativa básica
+- Lista de diárias com filtros básicos
+- Dashboard simples de visualização
 
 ### Fase 2 - Funcionalidades Core
-**Objetivo:** Implementar funcionalidades essenciais de gestão
+**Objetivo:** Implementar funcionalidades essenciais de controle
 
 **Funcionalidades:**
-- Sistema de aprovação hierárquico
 - Categorização automática de gastos
 - Upload e gestão de comprovantes
-- Notificações por email
+- Validação avançada de dados
 - Relatórios básicos
-- Dashboard inicial
+- Dashboard com métricas
+- Filtros avançados
 
 **Entregáveis:**
-- Workflow de aprovação
 - Categorização inteligente
 - Sistema de arquivos
 - Relatórios em PDF/Excel
+- Dashboard interativo
 
 ### Fase 3 - Analytics e Otimizações
 **Objetivo:** Adicionar insights e melhorar experiência
@@ -336,15 +326,15 @@ src/
 
 **2. Core Features (Funcionalidades Essenciais)**
 - CRUD de diárias
-- Sistema de usuários
+- Sistema de autenticação
 - Upload de arquivos
 - Interface responsiva
 
 **3. Business Logic (Lógica de Negócio)**
-- Sistema de aprovação
 - Categorização automática
+- Validação de dados
 - Relatórios básicos
-- Notificações
+- Controle de duplicatas
 
 **4. Enhancement (Melhorias)**
 - Dashboard avançado
@@ -413,10 +403,11 @@ src/
 ## Appendix
 
 ### Research Findings
-- 78% dos profissionais consideram controle de diárias complexo
-- 65% preferem solução digital a planilhas
-- 82% valorizam aprovação rápida
-- 71% precisam de relatórios detalhados
+- 85% dos engenheiros usam planilhas para controle de diárias
+- 78% consideram processo manual propenso a erros
+- 92% preferem solução digital a planilhas
+- 88% valorizam visualização rápida e organizada
+- 76% precisam de relatórios detalhados
 
 ### Technical Specifications
 - **Frontend:** React 18+, TypeScript, Material-UI, React Hook Form, Zod
