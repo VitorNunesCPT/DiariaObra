@@ -47,6 +47,26 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - **Importância:** Permite acompanhamento de gastos e identificação de tendências
 - **Funcionamento:** Gráficos interativos e filtros dinâmicos
 
+### 7. Cálculos Automáticos
+- **O que faz:** Calcula automaticamente totais, médias e comparativos
+- **Importância:** Fornece insights rápidos sobre gastos e produtividade
+- **Funcionamento:** Cálculos em tempo real de dias de viagem, média por dia, comparativo com limites
+
+### 8. Controle de Períodos de Trabalho
+- **O que faz:** Define e controla períodos de trabalho durante viagens
+- **Importância:** Permite análise de produtividade e custo-benefício
+- **Funcionamento:** Registro de horas trabalhadas, diferenciação de dias úteis/finais de semana
+
+### 9. Validações Avançadas
+- **O que faz:** Valida gastos contra limites e regras de negócio
+- **Importância:** Garante conformidade com políticas e orçamentos
+- **Funcionamento:** Validação de limites por categoria, horários de trabalho, gastos por dia
+
+### 10. Configurações do Sistema
+- **O que faz:** Permite configurar parâmetros e limites do sistema
+- **Importância:** Personaliza o sistema para necessidades específicas
+- **Funcionamento:** Definição de limites de gastos, períodos de trabalho, categorias customizáveis
+
 ---
 
 ## User Experience
@@ -76,6 +96,20 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 3. Filtros por período, categoria, valor
 4. Edição de registros quando necessário
 5. Geração de relatórios
+
+**Fluxo de Configuração:**
+1. Acesso às configurações do sistema
+2. Definição de limites por categoria
+3. Configuração de períodos de trabalho
+4. Personalização de categorias
+5. Salvamento das configurações
+
+**Fluxo de Análise:**
+1. Visualização de métricas no dashboard
+2. Análise de gastos por período
+3. Comparativo com limites configurados
+4. Geração de relatórios de produtividade
+5. Exportação de dados para análise
 
 ### UI/UX Considerations
 - Interface responsiva para mobile e desktop
@@ -117,13 +151,22 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - ID, nome, email, senha_hash, data_criacao
 
 **Diária:**
-- ID, usuario_id, data_inicio, data_fim, valor_total, status
+- ID, usuario_id, data_inicio, data_fim, valor_total, status, dias_viagem, media_dia
 
 **Gasto:**
-- ID, diaria_id, categoria, valor, descricao, comprovante_url, data_registro
+- ID, diaria_id, categoria, valor, descricao, comprovante_url, data_registro, data_gasto
 
 **Categoria:**
-- ID, nome, descricao, cor
+- ID, nome, descricao, cor, limite_diario, limite_mensal
+
+**Período de Trabalho:**
+- ID, diaria_id, data, hora_inicio, hora_fim, horas_trabalhadas, tipo_dia (util/fim_semana)
+
+**Configuração:**
+- ID, usuario_id, categoria_id, limite_diario, limite_mensal, ativo
+
+**Relatório:**
+- ID, usuario_id, tipo_relatorio, periodo_inicio, periodo_fim, dados_json, data_geracao
 
 ### APIs and Integrations
 
@@ -132,7 +175,11 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - /api/diarias (CRUD diárias)
 - /api/gastos (CRUD gastos)
 - /api/categorias (gestão categorias)
+- /api/periodos-trabalho (CRUD períodos)
+- /api/configuracoes (gestão configurações)
 - /api/relatorios (geração relatórios)
+- /api/calculos (cálculos automáticos)
+- /api/validacoes (validações avançadas)
 
 **Integrações Externas:**
 - Sistema de pagamento
@@ -162,6 +209,36 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - Validação visual e feedback de erros
 - Acessibilidade integrada
 - Temas consistentes
+
+**Componentes de Cálculo:**
+- Calculadora de dias de viagem
+- Calculadora de médias por dia
+- Comparativo com limites
+- Indicadores de produtividade
+
+**Componentes de Configuração:**
+- Formulário de limites por categoria
+- Configurador de períodos de trabalho
+- Personalizador de categorias
+- Validador de parâmetros
+
+### Cálculos e Validações Específicas
+
+**Cálculos Automáticos:**
+- **Dias de Viagem:** Diferença entre data_inicio e data_fim
+- **Média por Dia:** valor_total / dias_viagem
+- **Subtotais por Categoria:** Soma de gastos por categoria
+- **Comparativo com Limites:** Gastos vs limites configurados
+- **Horas Trabalhadas:** Soma de horas por período
+- **Produtividade:** Relação entre horas e gastos
+
+**Validações Avançadas:**
+- **Limite Diário:** Validação de gastos por categoria por dia
+- **Limite Mensal:** Validação de gastos por categoria por mês
+- **Horários de Trabalho:** Validação de períodos de trabalho
+- **Dias Úteis:** Diferenciação entre dias úteis e finais de semana
+- **Duplicatas:** Controle de gastos duplicados
+- **Comprovantes:** Validação de upload de arquivos
 
 ### Arquitetura MVC Backend
 
@@ -212,14 +289,20 @@ src/
 ├── components/          # Componentes reutilizáveis
 │   ├── ui/             # Componentes de UI básicos
 │   ├── forms/          # Componentes de formulário reutilizáveis
+│   ├── calculators/    # Componentes de cálculo
+│   ├── config/         # Componentes de configuração
 │   └── features/       # Componentes específicos de features
 ├── hooks/              # Hooks customizados
 │   ├── forms/          # Hooks para formulários
-│   └── api/            # Hooks para APIs
+│   ├── api/            # Hooks para APIs
+│   ├── calculations/   # Hooks para cálculos
+│   └── config/         # Hooks para configurações
 ├── services/           # Lógica de negócio e APIs
 ├── types/              # Definições de tipos TypeScript
 ├── schemas/            # Schemas de validação Zod
 ├── utils/              # Funções utilitárias
+│   ├── calculations/   # Utilitários de cálculo
+│   └── validations/    # Utilitários de validação
 ├── contexts/           # Context providers
 ├── pages/              # Componentes de página
 └── tests/              # Arquivos de teste Jest
@@ -229,14 +312,24 @@ src/
 ```
 src/
 ├── controllers/        # Controllers (lógica de negócio)
+│   ├── diarias/       # Controllers de diárias
+│   ├── gastos/        # Controllers de gastos
+│   ├── calculos/      # Controllers de cálculos
+│   ├── config/        # Controllers de configuração
+│   └── relatorios/    # Controllers de relatórios
 ├── models/            # Models (interação com banco)
 ├── views/             # Views (respostas da API)
 ├── routes/            # Definição de rotas
 ├── middlewares/       # Middlewares customizados
 ├── services/          # Serviços de negócio
+│   ├── calculations/  # Serviços de cálculo
+│   ├── validations/   # Serviços de validação
+│   └── reports/       # Serviços de relatórios
 ├── types/             # Definições de tipos TypeScript
 ├── schemas/           # Schemas de validação
 ├── utils/             # Funções utilitárias
+│   ├── calculations/  # Utilitários de cálculo
+│   └── validations/   # Utilitários de validação
 ├── config/            # Configurações
 └── tests/             # Arquivos de teste Jest
 ```
@@ -269,6 +362,7 @@ src/
 - Categorização automática de gastos
 - Upload e gestão de comprovantes
 - Validação avançada de dados
+- Cálculos automáticos básicos
 - Relatórios básicos
 - Dashboard com métricas
 - Filtros avançados
@@ -276,6 +370,7 @@ src/
 **Entregáveis:**
 - Categorização inteligente
 - Sistema de arquivos
+- Cálculos de dias e médias
 - Relatórios em PDF/Excel
 - Dashboard interativo
 
@@ -285,6 +380,9 @@ src/
 **Funcionalidades:**
 - Dashboard avançado com gráficos
 - Analytics e métricas
+- Controle de períodos de trabalho
+- Validações avançadas
+- Configurações do sistema
 - Filtros avançados
 - Exportação de dados
 - Otimizações de performance
@@ -293,6 +391,8 @@ src/
 **Entregáveis:**
 - Dashboard interativo
 - Sistema de métricas
+- Controle de períodos
+- Sistema de configurações
 - API completa documentada
 - Testes Jest (unit, integration, E2E)
 
@@ -333,12 +433,16 @@ src/
 **3. Business Logic (Lógica de Negócio)**
 - Categorização automática
 - Validação de dados
+- Cálculos automáticos
+- Controle de períodos
 - Relatórios básicos
 - Controle de duplicatas
 
 **4. Enhancement (Melhorias)**
 - Dashboard avançado
 - Analytics
+- Validações avançadas
+- Configurações
 - Otimizações
 - Testes
 
@@ -437,10 +541,12 @@ src/
 - **E2E Tests:** Cenários completos de uso
 
 **Cobertura de Testes:**
-- **Frontend:** Componentes, hooks customizados, formulários
-- **Backend:** Controllers, models, services
-- **Validação:** Schemas Zod, regras de negócio
+- **Frontend:** Componentes, hooks customizados, formulários, cálculos
+- **Backend:** Controllers, models, services, validações
+- **Validação:** Schemas Zod, regras de negócio, limites
 - **APIs:** Endpoints, middlewares, autenticação
+- **Cálculos:** Utilitários de cálculo, validações de limites
+- **Configurações:** Parâmetros, limites, períodos de trabalho
 
 **Estratégia de Testes:**
 - Testes unitários para lógica de negócio
