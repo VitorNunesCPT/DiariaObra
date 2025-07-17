@@ -102,22 +102,22 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 ### System Components
 
 **Frontend:**
-- Interface web responsiva (React/Vue.js)
-- Aplicativo mobile (React Native/Flutter)
-- Componentes reutilizáveis
+- Interface web responsiva (React/TypeScript)
+- Componentes modulares e reutilizáveis
 - Sistema de design consistente
+- Arquitetura baseada em hooks customizados
 
 **Backend:**
-- API RESTful (Node.js/Python)
+- API RESTful (Node.js/TypeScript)
 - Autenticação JWT
 - Banco de dados relacional (PostgreSQL)
 - Sistema de cache (Redis)
 
 **Infrastructure:**
-- Cloud hosting (AWS/Azure)
-- CDN para assets
-- Backup automático
+- Servidor de aplicação configurável
+- Sistema de backup
 - Monitoramento e logs
+- Configuração modular para diferentes ambientes
 
 ### Data Models
 
@@ -146,6 +146,35 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - Serviço de email
 - Storage para arquivos
 - Analytics
+
+### Arquitetura Modular e Boas Práticas
+
+**Princípios de Desenvolvimento:**
+- **DRY (Don't Repeat Yourself):** Componentes e funções reutilizáveis
+- **Separação de Responsabilidades:** Lógica de negócio separada da apresentação
+- **TypeScript Rigoroso:** Tipos específicos, evitando uso de 'any'
+- **Componentes Atômicos:** Componentes pequenos e focados (< 250 linhas)
+- **Hooks Customizados:** Lógica reutilizável extraída em hooks
+- **Gerenciamento de Estado Eficiente:** Context API e composição de componentes
+- **Tratamento de Erros:** Error boundaries e feedback ao usuário
+- **Performance:** React.memo, useCallback, useMemo quando apropriado
+- **Acessibilidade:** WCAG guidelines e navegação por teclado
+- **Testes Abrangentes:** Unit, integration e E2E tests
+
+**Estrutura de Pastas:**
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── ui/             # Componentes de UI básicos
+│   └── features/       # Componentes específicos de features
+├── hooks/              # Hooks customizados
+├── services/           # Lógica de negócio e APIs
+├── types/              # Definições de tipos TypeScript
+├── utils/              # Funções utilitárias
+├── contexts/           # Context providers
+├── pages/              # Componentes de página
+└── tests/              # Arquivos de teste
+```
 
 ---
 
@@ -202,21 +231,21 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - API completa documentada
 - Testes de qualidade
 
-### Fase 4 - Mobile e Integrações
-**Objetivo:** Expansão para mobile e integrações externas
+### Fase 4 - Integrações e Expansão
+**Objetivo:** Integrações externas e funcionalidades avançadas
 
 **Funcionalidades:**
-- Aplicativo mobile nativo
 - Integração com sistemas ERP
 - API pública para terceiros
 - Funcionalidades avançadas
 - Internacionalização
+- Otimizações de performance
 
 **Entregáveis:**
-- App mobile (iOS/Android)
 - Integrações com ERPs
-- API pública
+- API pública documentada
 - Sistema multilíngue
+- Performance otimizada
 
 ---
 
@@ -249,16 +278,20 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - Testes
 
 **5. Expansion (Expansão)**
-- Mobile app
-- Integrações
+- Integrações externas
 - API pública
 - Funcionalidades avançadas
+- Otimizações finais
 
 ### Princípios de Desenvolvimento
 - **Atomicidade:** Cada feature deve ser completa e funcional
 - **Iterativo:** Construir sobre funcionalidades existentes
 - **Testável:** Cada fase deve incluir testes
 - **Escalável:** Arquitetura preparada para crescimento
+- **Modular:** Componentes e funções reutilizáveis
+- **TypeScript:** Tipos rigorosos e específicos
+- **Performance:** Otimizações desde o início
+- **Acessibilidade:** Inclusivo desde o design
 
 ---
 
@@ -270,7 +303,7 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 **Mitigação:** Começar com categorização manual, implementar IA gradualmente
 
 **Risco:** Performance com muitos usuários
-**Mitigação:** Implementar cache, otimizar queries, usar CDN
+**Mitigação:** Implementar cache, otimizar queries, componentes modulares otimizados
 
 **Risco:** Segurança de dados
 **Mitigação:** Criptografia, autenticação robusta, auditoria
@@ -284,7 +317,10 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 **Mitigação:** Testes com usuários reais, feedback contínuo
 
 **Risco:** Complexidade técnica subestimada
-**Mitigação:** Prototipagem rápida, validação técnica
+**Mitigação:** Prototipagem rápida, validação técnica, arquitetura modular
+
+**Risco:** Código duplicado e manutenibilidade
+**Mitigação:** Componentes reutilizáveis, hooks customizados, revisão de código
 
 ### Resource Constraints
 
@@ -311,10 +347,9 @@ O Sistema de Controle de Diárias - FÁCIL é uma solução digital desenvolvida
 - **Frontend:** React 18+, TypeScript, Material-UI
 - **Backend:** Node.js, Express, TypeScript
 - **Database:** PostgreSQL 15+
-- **Cloud:** AWS (EC2, RDS, S3)
-- **Mobile:** React Native
 - **Testing:** Jest, Cypress
 - **CI/CD:** GitHub Actions
+- **Code Quality:** ESLint, Prettier, Husky
 
 ### Performance Requirements
 - **Tempo de resposta:** < 2 segundos
